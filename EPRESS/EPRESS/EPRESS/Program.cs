@@ -22,10 +22,10 @@ namespace EPRESS
 
         public int init()
         {
-            int m;
+            int wybor;
             Console.WriteLine("1. Dodaj element\n2. Usun element\n3. Wyswietl element\n4. Wczytaj baze z pliku\n5. Zapisz baze do pliku\n6. Drukowanie\n7. Sklep\n8. Wyjscie\nWybor: ");
-            m = int.Parse(Console.ReadLine());
-            switch (m)
+            wybor = int.Parse(Console.ReadLine());
+            switch (wybor)
             {
                 case 1:
                     dodawanie();
@@ -55,16 +55,16 @@ namespace EPRESS
                     Console.WriteLine("Podano nieprawidlowa wartosc.");
                     return 0;
             }
-            
+            Console.Clear();
             return 0;
         }
-        private void dodawanie()  //Dodawanie Autora, publikacji, umowy itd. do naszej Bazy danych
-        {                                   //różne konstruktory w zależności od typów parametrów?
-            int m;
+        private void dodawanie()                                                        //metoda dodawanie, która za pomocą menu tekstowego umozliwia dodanie odpowiedniego obiektu
+        {                                 
+            int wybor;
             Console.Clear();
             Console.WriteLine("Dodaj\n1. Autora\n2. Umowe\n3. Ksiazka\n4. Czasopismo\n");
-            m = int.Parse(Console.ReadLine());
-            switch (m)
+            wybor = int.Parse(Console.ReadLine());
+            switch (wybor)
             {
                 case 1:
                     DodajPoz.dodajAutora();
@@ -87,11 +87,12 @@ namespace EPRESS
         private void usuwanie()
         {                       
                                 
-            int m;
+            int wybor;
             Console.Clear();
             Console.WriteLine("Usun\n1. Autora\n2. Umowe\n3. Ksiazka\n4. Czasopismo\n");
-            m = int.Parse(Console.ReadLine());
-            switch (m)
+            wybor = int.Parse(Console.ReadLine());
+            switch (wybor)                                                  //konstrukcja switch()case, pozwala nam na wybranie, co się stanie po wpisaniu
+                                                                            //opowiedniej wartosci do zmiennej wybor
             {
                 case 1:
                     UsunPoz.usunAutora();
@@ -106,7 +107,7 @@ namespace EPRESS
                     UsunPoz.usunCzasopismo();
                     break;
                 default:
-                    Console.WriteLine("Podano nieprawidlowa wartosc.");
+                    Console.WriteLine("Podano nieprawidlowa wartosc.");     //Informujemy uzytkownika ze wpisał nieprawidłową wartosc              
                     break;
             }
 
@@ -114,11 +115,11 @@ namespace EPRESS
     
         private void wyswietlenie()
         {
-            int m;
-            Console.Clear();
-            Console.WriteLine("Wyswietl\n1. Autorow\n2. Umowy\n3. Ksiazki\n4. Czasopisma\n");
-            m = int.Parse(Console.ReadLine());
-            switch (m)
+            int wybor;
+            Console.Clear();                                                                       //Console.clear() Pozwala na czyszczenie tego, co mamy na ekranie, przez co
+            Console.WriteLine("Wyswietl\n1. Autorow\n2. Umowy\n3. Ksiazki\n4. Czasopisma\n");       //program wygląda ładnie, nawet jesli nie jest tekstowy
+            wybor = int.Parse(Console.ReadLine());
+            switch (wybor)
             {
                 case 1:
                     WyswietlPoz.wysAutorow();
@@ -164,8 +165,11 @@ namespace EPRESS
                 int iterator = 0;
                 string imie = "";
                 string nazwisko = "";
-
                 string[] autorzy = file.ReadToEnd().Split(' ');
+                if (autorzy == null)
+                {
+                    throw new EmptyFileException("Plik autorzy.txt, z ktorego chcesz wczytac jest pusty lub nie mozliwy do oczytania!");
+                }
                 foreach (string autor in autorzy)
                 {
 
@@ -179,13 +183,13 @@ namespace EPRESS
                     {
 
                         Autor autorN;
-                        if(DzialProgramowy.autorzy.Znajdz(imie, nazwisko) == null)
+                        if(Start.autorzy.Znajdz(imie, nazwisko) == null)
                         {
                             autorN = new Autor(imie, nazwisko);
                         }
                         else
                         {
-                            autorN = DzialProgramowy.autorzy.Znajdz(imie, nazwisko);
+                            autorN = Start.autorzy.Znajdz(imie, nazwisko);
                         }
                         DodajPoz.dodajAutora(autorN);
                         iterator = 0;
@@ -200,7 +204,12 @@ namespace EPRESS
                 float zarobki = 0;
                 string imieAutora = "";
                 string nazwiskoAutora = "";
-                string[] umowy = file.ReadToEnd().Split(' ');
+                string[] umowy = file.ReadToEnd().Split(' ');//Metoda ta powoduje, ze wszystko co jest w zmiennej StreamReader o nazwie file jest dodawanie do tablicy
+                                                                //znakiem oddzielenia jest spacja, co jest oznaczone jako ' '
+                if (umowy == null)
+                {
+                    throw new EmptyFileException("Plik umowy.txt, z ktorego chcesz wczytac jest pusty lub jest nie mozliwy do oczytania!");
+                }
 
 
                 foreach (string umowa in umowy)
@@ -208,11 +217,11 @@ namespace EPRESS
 
 
                     if (iterator == 0)
-                    { czastrwania = int.Parse(umowa); }
+                    { czastrwania = int.Parse(umowa); }                 //konwertujemy do typu int, poniwaz wejscie jest w typie string 
                     if (iterator == 1)
                     {
-                        zarobki = float.Parse(umowa);
-                    }
+                        zarobki = float.Parse(umowa);                   //musimy skonwertować naszą wartości wczytaną z pliku do typu float, poniewaz streamreader czyta stringi
+                    }                                                   //jako wejscie, których nie mozna traktowac jak liczby
                     if (iterator == 2)
                     {
                         imieAutora = umowa; 
@@ -221,27 +230,28 @@ namespace EPRESS
                     {
                         nazwiskoAutora = umowa;
                     }
-                    iterator++;
+                    iterator++;                                          
                     if (iterator == 4)
                     {
                         Autor autorN;
                         Umowa umowos;
-                        if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) != null)
-                        {
-                           autorN = DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora);
+                        if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) != null)           //metoda Start.autorzy.znajdz(obiekt) mówi nam czy taki obiekt jest w naszej bazie 
+                        {                                                                       //i jesli jest to zwraca nam referencje do tego obiektu, jesli nie ma to zwraca wartosc
+                           autorN = Start.autorzy.Znajdz(imieAutora, nazwiskoAutora);           //null, która mówi nam ze trzeba stworzyc nowy obiekt
                         }
                         else
                         {
                             autorN = new Autor(imieAutora, nazwiskoAutora);
-                            DzialProgramowy.autorzy.Dodaj(autorN);
+                            Start.autorzy.Dodaj(autorN);
                         }
-                        if (DzialProgramowy.umowy.Znajdz(imieAutora, nazwiskoAutora)==null){
+                        if (Start.umowy.Znajdz(imieAutora, nazwiskoAutora)==null){
                             umowos = new Umowa(czastrwania, zarobki, autorN);
+                            Start.umowy.Dodaj(umowos);
                         }
                         else
                         {
-                            umowos = DzialProgramowy.umowy.Znajdz(imieAutora, nazwiskoAutora);
-                            DzialProgramowy.umowy.Dodaj(umowos);
+                            umowos = Start.umowy.Znajdz(imieAutora, nazwiskoAutora);
+                            Start.umowy.Dodaj(umowos);
                         }
                         
                         
@@ -252,18 +262,22 @@ namespace EPRESS
             }
             using (StreamReader file= new StreamReader("czasopisma.txt"))
             {
-                int iterator = 0;
-                string tytul="";
+                int iterator = 0;                           //ustawiamy wartosci poczatkowe zmiennych na "domyślne " wartości zeby kompilator nie krzyczal o nie zadeklarowanej
+                string tytul="";                            //zmiennej
                 float cena=0;
                 string typ="";
-                string[] czasopisma = file.ReadToEnd().Split(' ');
-                foreach(string czasopismo in czasopisma)
+                string[] czasopisma = file.ReadToEnd().Split(' '); //Metoda ta powoduje, ze wszystko co jest w zmiennej StreamReader o nazwie file jest dodawanie do tablicy
+                if (czasopisma == null)                            //stringów, a znakiem odzielenia jest spacja co jest oznaczone jako ' '
+                {                                                   //wyrzucamy wyjątek jeśli nasza tablica stringów jest pusta, to znak ze plik jest pusty!
+                    throw new EmptyFileException("Plik czasopisma.txt, z ktorego chcesz wczytac jest pusty, lub nie mozliwy do oczytania!");
+                }
+                foreach (string czasopismo in czasopisma)
                 {
 
-                    if (iterator == 0)
-                    { tytul = czasopismo;  }
-                    if (iterator == 1)
-                    { cena = float.Parse(czasopismo);  }
+                    if (iterator == 0)                                          //Mamy tutaj iterator, ktory moze przybrac wartosc maksymalnie 3, pomaga nam on zeby z tablicy
+                    { tytul = czasopismo;  }                                    //stringów wybrać pojedyńcze elementy, takie jak tytuł, typ, cena, po osiagnieciu wartosci 3, po
+                    if (iterator == 1)                                          //wykonaniu instrukcji dodania odpowiedniego czasopisma do zbioru czasopism, zerujemy go by mogl 
+                    { cena = float.Parse(czasopismo);  }                        //dodać kolejne czasopisma
                     if(iterator==2)
                     { typ = czasopismo; }
                     iterator++;
@@ -272,40 +286,40 @@ namespace EPRESS
                         if (typ == "czasopismo")
                         {
                             Czasopismo czasopism;
-                            if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)
-                            {
-                                czasopism = new Czasopismo(cena, tytul);
+                            if (Start.czasopisma.Znajdz(tytul) == null)             //metoda Start.czasopsima.Znajdz(obiekt) zwraca nam referencję do obiektu, jeśli taki
+                            {                                                       //obiekt istnieje w naszej bazie, a jesli nie ma takiego to zwraca nam wartosc null, ktora
+                                czasopism = new Czasopismo(cena, tytul);            //mówi, ze mozemy stworzyc nowy obiekt
                             }
                             else
                             {
-                                czasopism = DzialHandlowy.czasopisma.Znajdz(tytul);
+                                czasopism = Start.czasopisma.Znajdz(tytul);
                             }
-                            DzialHandlowy.czasopisma.Dodaj(czasopism);
+                            Start.czasopisma.Dodaj(czasopism);
                         }
                         if (typ == "miesiecznik"){
                             Czasopismo czasopism;
-                            if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)
+                            if (Start.czasopisma.Znajdz(tytul) == null)
                             {
                                 czasopism = new Miesiecznik(cena, tytul);
-                            }
-                            else
+                            }                                                         //w zaleznosci z jakim typem czasopisma mamy do czynienia, korzystamy z odpowiednich
+                            else                                                      //metod dodania czasopisma
                             {
-                                czasopism = DzialHandlowy.czasopisma.Znajdz(tytul);
+                                czasopism = Start.czasopisma.Znajdz(tytul);
                             }
-                            DzialHandlowy.czasopisma.Dodaj(czasopism);
+                            Start.czasopisma.Dodaj(czasopism);
                         }
                         if (typ == "tygodnik")
                         {
                             Czasopismo czasopism;
-                            if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)
+                            if (Start.czasopisma.Znajdz(tytul) == null)
                             {
                                 czasopism = new Tygodnik(cena, tytul);
                             }
                             else
                             {
-                                czasopism = DzialHandlowy.czasopisma.Znajdz(tytul);
+                                czasopism =Start.czasopisma.Znajdz(tytul);
                             }
-                            DzialHandlowy.czasopisma.Dodaj(czasopism);
+                            Start.czasopisma.Dodaj(czasopism);
                         }
                         
                         iterator = 0;
@@ -322,6 +336,10 @@ namespace EPRESS
                 string nazwiskoAutora="";
                 string gatunek="";
                 string[] ksiazki = file.ReadToEnd().Split(' ');
+                if (ksiazki == null)
+                {
+                    throw new EmptyFileException("Plik ksiazki.txt, z ktorego chcesz wczytac jest pusty!");
+                }
                 foreach (string ksiazka in ksiazki)
                 {
                     if (iterator == 0) { tytul= ksiazka; }
@@ -336,30 +354,30 @@ namespace EPRESS
                         {
                             Autor autor;
                             Ksiazka sensacyjna;
-                            if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
                             {
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                             }
                             else
                             {
-                                autor = DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora);
+                                autor = Start.autorzy.Znajdz(imieAutora, nazwiskoAutora);
                                
                             }
-                            if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
+                            if (Start.ksiazki.Znajdz(tytul) == null)
                             {
                                 sensacyjna = new Sensacyjna(tytul, autor, rokwydania);
                             }
                             else
                             {
-                                sensacyjna = DzialHandlowy.ksiazki.Znajdz(tytul);
+                                sensacyjna = Start.ksiazki.Znajdz(tytul);
                             }
-                            DzialHandlowy.ksiazki.Dodaj(sensacyjna);
+                            Start.ksiazki.Dodaj(sensacyjna);
                         }
                         if (gatunek == "Romans")
                         {
                             Autor autor;
                             Ksiazka romans;
-                            if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
                             {
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                             }
@@ -368,21 +386,21 @@ namespace EPRESS
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                                 
                             }
-                            if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
+                            if (Start.ksiazki.Znajdz(tytul) == null)
                             {
                                 romans = new Romans(tytul, autor, rokwydania);
                             }
                             else
                             {
-                                romans = DzialHandlowy.ksiazki.Znajdz(tytul);
+                                romans = Start.ksiazki.Znajdz(tytul);
                             }
-                            DzialHandlowy.ksiazki.Dodaj(romans);
+                            Start.ksiazki.Dodaj(romans);
                         }
                         if (gatunek == "Album")
                         {
                             Autor autor;
                             Ksiazka album;
-                            if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
                             {
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                             }
@@ -391,15 +409,39 @@ namespace EPRESS
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                              
                             }
-                            if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
+                            if (Start.ksiazki.Znajdz(tytul) == null)
                             {
                                 album = new Album(tytul, autor, rokwydania);
                             }
                             else
                             {
-                                album = DzialHandlowy.ksiazki.Znajdz(tytul);
+                                album = Start.ksiazki.Znajdz(tytul);
                             }
-                            DzialHandlowy.ksiazki.Dodaj(album);
+                            Start.ksiazki.Dodaj(album);
+                        }
+                        if (gatunek == "Ksiazka")
+                        {
+                            Autor autor;
+                            Ksiazka ksiazkaa;
+                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            {
+                                autor = new Autor(imieAutora, nazwiskoAutora);
+                            }
+                            else
+                            {
+                                autor = new Autor(imieAutora, nazwiskoAutora);
+
+                            }
+                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            {
+                                ksiazkaa = new Album(tytul, autor, rokwydania);
+                            }
+                            else
+                            {
+                                ksiazkaa = Start.ksiazki.Znajdz(tytul);
+                            }
+                            Start.ksiazki.Dodaj(ksiazkaa);
+
                         }
                         iterator = 0;
                     }
@@ -413,45 +455,45 @@ namespace EPRESS
         }
         private void zapisz()
         {
-            using (StreamWriter file = new StreamWriter("autorzy1.txt"))
+            using (StreamWriter file = new StreamWriter("autorzy.txt"))
             {
-                foreach (Autor autor in DzialProgramowy.autorzy.GetAutorzy())
+                foreach (Autor autor in Start.autorzy.GetAutorzy())
                 {
                     file.Write(autor.GetImie() + " " + autor.GetNazwisko() + " ");
                 }
                 file.Close();
             }
-            using(StreamWriter file=new StreamWriter("umowy1.txt"))
+            using(StreamWriter file=new StreamWriter("umowy.txt"))
             {
-                foreach(Umowa umowa in DzialProgramowy.umowy.GetUmowy())
+                foreach(Umowa umowa in Start.umowy.GetUmowy())
                 {
 
                     file.Write(umowa.GetCzasTrwania() + " " + umowa.GetWynagrodzenie() + " " + umowa.GetAutor().GetImie() + " " + umowa.GetAutor().GetNazwisko() + " ");
                 }
                 file.Close();
             }
-            using(StreamWriter file = new StreamWriter("czasopisma1.txt"))
+            using(StreamWriter file = new StreamWriter("czasopisma.txt"))
             {
-                foreach(Czasopismo czasopismo in DzialHandlowy.czasopisma.GetPisma())
+                foreach(Czasopismo czasopismo in Start.czasopisma.GetPisma())
                 {
                     file.Write(czasopismo.GetTytyul() + " " + czasopismo.GetCena() + " " + czasopismo.GetTyp() + " ");
                 }
                 file.Close();
             }
-            using(StreamWriter file = new StreamWriter("ksiazki1.txt"))
+            using(StreamWriter file = new StreamWriter("ksiazki.txt"))
             {
-                foreach(Ksiazka ksiazka in DzialHandlowy.ksiazki.GetKsiazki())
+                foreach(Ksiazka ksiazka in Start.ksiazki.GetKsiazki())
                 {
                     file.Write(ksiazka.GetTytul() + " " + ksiazka.GetRokWydania() + " " + ksiazka.GetAutor().GetImie() + " " + ksiazka.GetAutor().GetNazwisko() + " "+ksiazka.GetTyp()+" ");
                 }
                 file.Close();
             }
+            Console.WriteLine("Zapisano");
         }
     }
     class DzialDruku
     {
-        public static Drukarnie drukarnie = new Drukarnie();
-            
+        
         static public void drukujKsiazki()
         {
             string tytul;
@@ -460,8 +502,8 @@ namespace EPRESS
             WyswietlPoz.wysKsiazki();
             Console.WriteLine("Podaj tytul ksiazki: \n");
             tytul = Console.ReadLine();
-            ksiazka = DzialHandlowy.ksiazki.Znajdz(tytul);
-            if(ksiazka == null)
+            ksiazka = Start.ksiazki.Znajdz(tytul);                      //Metoda Start.ksiazki.znajdz(obiekt) mówi nam czy dany obiekt znajduje się w naszej bazie, jesli tak
+            if(ksiazka == null)                                         //zwraca referencje do obiektu, jesli nie to zwraca wartosc null, oznaczającą, ze obiektu nie ma
             {
                 Console.WriteLine("Nie ma ksiazki w bazie.\nDodaj ksiazke.");
                 DodajPoz.dodajKsiazke();
@@ -478,7 +520,7 @@ namespace EPRESS
             WyswietlPoz.wysCzasopisma();
             Console.WriteLine("Podaj tytul czasopisma: \n");
             tytul = Console.ReadLine();
-            czasopismo = DzialHandlowy.czasopisma.Znajdz(tytul);
+            czasopismo = Start.czasopisma.Znajdz(tytul);
             if (czasopismo == null)
             {
                 Console.WriteLine("Nie ma czasopisma w bazie.\nDodaj czasopismo.");
@@ -499,14 +541,12 @@ namespace EPRESS
         public Drukarnie()
         {
             drukarnie = new List<Drukarnia>();
-            Drukarnia d1 = new Drukarnia("drukarnia1", false);
-            Drukarnia d2 = new Drukarnia("drukarnia2", false);
-            Drukarnia d3 = new Drukarnia("drukarnia3", true);
-            drukarnie.Add(d1);
-            drukarnie.Add(d2);
-            drukarnie.Add(d3);
         }
-        public List<Drukarnia> GetDrukarnie() { return drukarnie; }
+        public List<Drukarnia> GetDrukarnie() 
+        {
+            if (drukarnie == null) { throw new EmptyListException("Lista drukarni jest pusta!"); }
+            
+            return drukarnie; }
         public Drukarnia DajDrukarnie(bool CzyAlbum)
         {
             foreach(Drukarnia druk in drukarnie)
@@ -531,24 +571,22 @@ namespace EPRESS
     }
     class DzialProgramowy
     {
-        public static Autorzy autorzy = new Autorzy();
-        public static Umowy umowy = new Umowy();
-
- 
+        
+        public Drukarnie druk = new Drukarnie();
         public Drukarnia WybierzDrukarnie(bool DrukujeAlbumy)
         {
            
-               return DzialDruku.drukarnie.DajDrukarnie(DrukujeAlbumy);
+               return druk.DajDrukarnie(DrukujeAlbumy);
 
         }
-        /*public void Zatrudnij()
+        public void Zatrudnij()
         {
 
         }
         public void Przeslij()
         {
 
-        }*/
+        }
     }
     public class Umowy
     {
@@ -567,6 +605,7 @@ namespace EPRESS
         }
         public List<Umowa> GetUmowy()
         {
+            if (umowy == null) { throw new EmptyListException("lista Umow jest pusta!"); }
             return umowy;
         }
         public int Licz()
@@ -651,6 +690,7 @@ namespace EPRESS
         }
         public List<Autor> GetAutorzy()
         {
+            if (autorzy == null) { throw new EmptyListException("Lista Autorow jest pusta! "); }
             return autorzy;
         }
         public int Licz()
@@ -697,33 +737,34 @@ namespace EPRESS
     }
     class DzialHandlowy
     {
-        public static Ksiazki ksiazki = new Ksiazki();
-        public static Czasopisma czasopisma = new Czasopisma();
+        
 
         public static void sklep()
         {
-            int m;
+            int wybor;
             Console.Clear();
             Console.WriteLine("1. Wyswietl oferte.\n2. Sprzedaz.\n");
-            m = int.Parse(Console.ReadLine());
-            if (m == 1)
+            wybor = int.Parse(Console.ReadLine());              //input konwertujemy na int. ponieważ input jest typu string
+            if (wybor == 1)
             {
                 oferta();
-            }else if (m == 2)
+            }else if (wybor == 2)
             {
                 zlecenie();
             }
             else
             {
                 Console.WriteLine("Nieodpowiednia wartosc.\nAnulowano operacje.\n");
+       
+
                 return;
             }
         }
         public static void zlecenie()
         {
-            int wybor;
-            int ilosc;
-            string tytul;
+            int wybor=0;
+            int ilosc=0;
+            string tytul="";
             Console.Clear();
             Console.WriteLine("Sprzedano:\n1. Ksiazki.\n2. Czasopisma.\n");
             wybor = int.Parse(Console.ReadLine());
@@ -731,6 +772,7 @@ namespace EPRESS
             if(wybor<1 || wybor > 2)
             {
                 Console.WriteLine("Nieodpowiednia wartosc.\n Anulowano operacje.\n");
+                
                 return;
             }
             Console.WriteLine("Ilosc sprzedanych egemplarzy: ");
@@ -740,29 +782,29 @@ namespace EPRESS
             Console.Clear();
             if (wybor == 1)
             {
-                if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
+                if (Start.ksiazki.Znajdz(tytul) == null)
                 {
                     Console.WriteLine("Brak takiej ksiazki w bazie.");
                     return;
                 }
-                DzialHandlowy.ksiazki.Znajdz(tytul).ZmniejszIlosc(ilosc);
+                Start.ksiazki.Znajdz(tytul).ZmniejszIlosc(ilosc);
             }else if(wybor == 2)
             {
-                if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)
+                if (Start.czasopisma.Znajdz(tytul) == null)
                 {
                     Console.WriteLine("Brak takiego czasopisma w bazie.\n");
                     return;
                 }
-                DzialHandlowy.czasopisma.Znajdz(tytul).ZmniejszIlosc(ilosc);
+                Start.czasopisma.Znajdz(tytul).ZmniejszIlosc(ilosc);
             }
         }
         public static void oferta()
         {
             Console.Clear();
             Console.WriteLine("---OFERTA---\n**KSIAZKI**\n");
-            DzialHandlowy.ksiazki.Wypisz();
+            Start.ksiazki.Wypisz();
             Console.WriteLine("\n**CZASOPISMA**\n");
-            DzialHandlowy.czasopisma.Wypisz();
+            Start.czasopisma.Wypisz();
         }
         public void przeslij()
         {
@@ -799,9 +841,11 @@ namespace EPRESS
         }
         public void ZmniejszIlosc(int ilosc)
         {
+            if (this.ilosc < ilosc) { throw new WrongSubstractedNumber(ilosc, "Odjeto wiecej ksiazke niz jest w bazie!"); }
+
             this.ilosc -= ilosc;
         }
-        public virtual string GetTyp()
+        public virtual string GetTyp()              //korzystamy tutaj z klasy wirtualnej, żeby metoda GetTyp() zwracała dobrą wartość, zależną od swojej klasy
         {
             
             return "Czasopismo";
@@ -834,6 +878,7 @@ namespace EPRESS
         }
         public List<Czasopismo> GetPisma()
         {
+            if (czasopisma == null) { throw new EmptyListException("Lista czasopism jest pusta!"); }
             return czasopisma;
         }
         public int Licz()
@@ -866,6 +911,7 @@ namespace EPRESS
         private List<Ksiazka> ksiazki;
         public Ksiazki()
         {
+             
             ksiazki = new List<Ksiazka>();
         }
         public void Dodaj(Ksiazka ksiazka)
@@ -878,7 +924,11 @@ namespace EPRESS
         }
         public List<Ksiazka> GetKsiazki()
         {
-            return ksiazki;
+            if (ksiazki == null)
+            {
+                throw new EmptyListException("Lista ksiazek jest pusta!");
+            }
+                return ksiazki;
         }
         public int Licz()
         {
@@ -911,7 +961,6 @@ namespace EPRESS
         private string tytul;
         private Autor Autor;
         private int RokWydania;
-        
 
         public Ksiazka(string tyt,Autor autor, int rokWyd)
         {
@@ -941,6 +990,7 @@ namespace EPRESS
         }
         public void ZmniejszIlosc(int ilosc)
         {
+            if (ilosc > this.ilosc) { throw new WrongSubstractedNumber(ilosc, "W bazie jest mniej ksiazek niz probujesz odjac!"); }
             this.ilosc -= ilosc;
         }
         public virtual string GetTyp() { return "Ksiazka"; }
