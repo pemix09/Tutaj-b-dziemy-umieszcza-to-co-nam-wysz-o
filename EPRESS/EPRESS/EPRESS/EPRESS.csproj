@@ -33,6 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions.cs" />
     <Compile Include="WyswietlPoz.cs" />
     <Compile Include="UsunPoz.cs" />
     <Compile Include="Start.cs" />
