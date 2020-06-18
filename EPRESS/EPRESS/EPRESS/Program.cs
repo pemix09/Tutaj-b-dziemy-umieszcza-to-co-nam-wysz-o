@@ -55,7 +55,7 @@ namespace EPRESS
                     Console.WriteLine("Podano nieprawidlowa wartosc.");
                     return 0;
             }
-            Console.Clear();
+           
             return 0;
         }
         private void dodawanie()                                                        //metoda dodawanie, która za pomocą menu tekstowego umozliwia dodanie odpowiedniego obiektu
@@ -183,13 +183,13 @@ namespace EPRESS
                     {
 
                         Autor autorN;
-                        if(Start.autorzy.Znajdz(imie, nazwisko) == null)
+                        if(DzialProgramowy.autorzy.Znajdz(imie, nazwisko) == null)
                         {
                             autorN = new Autor(imie, nazwisko);
                         }
                         else
                         {
-                            autorN = Start.autorzy.Znajdz(imie, nazwisko);
+                            autorN = DzialProgramowy.autorzy.Znajdz(imie, nazwisko);
                         }
                         DodajPoz.dodajAutora(autorN);
                         iterator = 0;
@@ -235,23 +235,23 @@ namespace EPRESS
                     {
                         Autor autorN;
                         Umowa umowos;
-                        if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) != null)           //metoda Start.autorzy.znajdz(obiekt) mówi nam czy taki obiekt jest w naszej bazie 
+                        if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) != null)           //metoda DzialProgramowy.autorzy.znajdz(obiekt) mówi nam czy taki obiekt jest w naszej bazie 
                         {                                                                       //i jesli jest to zwraca nam referencje do tego obiektu, jesli nie ma to zwraca wartosc
-                           autorN = Start.autorzy.Znajdz(imieAutora, nazwiskoAutora);           //null, która mówi nam ze trzeba stworzyc nowy obiekt
+                           autorN = DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora);           //null, która mówi nam ze trzeba stworzyc nowy obiekt
                         }
                         else
                         {
                             autorN = new Autor(imieAutora, nazwiskoAutora);
-                            Start.autorzy.Dodaj(autorN);
+                            DzialProgramowy.autorzy.Dodaj(autorN);
                         }
-                        if (Start.umowy.Znajdz(imieAutora, nazwiskoAutora)==null){
+                        if (DzialProgramowy.umowy.Znajdz(imieAutora, nazwiskoAutora)==null){
                             umowos = new Umowa(czastrwania, zarobki, autorN);
-                            Start.umowy.Dodaj(umowos);
+                            DzialProgramowy.umowy.Dodaj(umowos);
                         }
                         else
                         {
-                            umowos = Start.umowy.Znajdz(imieAutora, nazwiskoAutora);
-                            Start.umowy.Dodaj(umowos);
+                            umowos = DzialProgramowy.umowy.Znajdz(imieAutora, nazwiskoAutora);
+                            DzialProgramowy.umowy.Dodaj(umowos);
                         }
                         
                         
@@ -286,40 +286,40 @@ namespace EPRESS
                         if (typ == "czasopismo")
                         {
                             Czasopismo czasopism;
-                            if (Start.czasopisma.Znajdz(tytul) == null)             //metoda Start.czasopsima.Znajdz(obiekt) zwraca nam referencję do obiektu, jeśli taki
+                            if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)             //metoda Start.czasopsima.Znajdz(obiekt) zwraca nam referencję do obiektu, jeśli taki
                             {                                                       //obiekt istnieje w naszej bazie, a jesli nie ma takiego to zwraca nam wartosc null, ktora
                                 czasopism = new Czasopismo(cena, tytul);            //mówi, ze mozemy stworzyc nowy obiekt
                             }
                             else
                             {
-                                czasopism = Start.czasopisma.Znajdz(tytul);
+                                czasopism = DzialHandlowy.czasopisma.Znajdz(tytul);
                             }
-                            Start.czasopisma.Dodaj(czasopism);
+                            DzialHandlowy.czasopisma.Dodaj(czasopism);
                         }
                         if (typ == "miesiecznik"){
                             Czasopismo czasopism;
-                            if (Start.czasopisma.Znajdz(tytul) == null)
+                            if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)
                             {
                                 czasopism = new Miesiecznik(cena, tytul);
                             }                                                         //w zaleznosci z jakim typem czasopisma mamy do czynienia, korzystamy z odpowiednich
                             else                                                      //metod dodania czasopisma
                             {
-                                czasopism = Start.czasopisma.Znajdz(tytul);
+                                czasopism = DzialHandlowy.czasopisma.Znajdz(tytul);
                             }
-                            Start.czasopisma.Dodaj(czasopism);
+                            DzialHandlowy.czasopisma.Dodaj(czasopism);
                         }
                         if (typ == "tygodnik")
                         {
                             Czasopismo czasopism;
-                            if (Start.czasopisma.Znajdz(tytul) == null)
+                            if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)
                             {
                                 czasopism = new Tygodnik(cena, tytul);
                             }
                             else
                             {
-                                czasopism =Start.czasopisma.Znajdz(tytul);
+                                czasopism =DzialHandlowy.czasopisma.Znajdz(tytul);
                             }
-                            Start.czasopisma.Dodaj(czasopism);
+                            DzialHandlowy.czasopisma.Dodaj(czasopism);
                         }
                         
                         iterator = 0;
@@ -354,30 +354,30 @@ namespace EPRESS
                         {
                             Autor autor;
                             Ksiazka sensacyjna;
-                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
                             {
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                             }
                             else
                             {
-                                autor = Start.autorzy.Znajdz(imieAutora, nazwiskoAutora);
+                                autor = DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora);
                                
                             }
-                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
                             {
                                 sensacyjna = new Sensacyjna(tytul, autor, rokwydania);
                             }
                             else
                             {
-                                sensacyjna = Start.ksiazki.Znajdz(tytul);
+                                sensacyjna = DzialHandlowy.ksiazki.Znajdz(tytul);
                             }
-                            Start.ksiazki.Dodaj(sensacyjna);
+                            DzialHandlowy.ksiazki.Dodaj(sensacyjna);
                         }
                         if (gatunek == "Romans")
                         {
                             Autor autor;
                             Ksiazka romans;
-                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
                             {
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                             }
@@ -386,21 +386,21 @@ namespace EPRESS
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                                 
                             }
-                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
                             {
                                 romans = new Romans(tytul, autor, rokwydania);
                             }
                             else
                             {
-                                romans = Start.ksiazki.Znajdz(tytul);
+                                romans = DzialHandlowy.ksiazki.Znajdz(tytul);
                             }
-                            Start.ksiazki.Dodaj(romans);
+                            DzialHandlowy.ksiazki.Dodaj(romans);
                         }
                         if (gatunek == "Album")
                         {
                             Autor autor;
                             Ksiazka album;
-                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
                             {
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                             }
@@ -409,21 +409,21 @@ namespace EPRESS
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                              
                             }
-                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
                             {
                                 album = new Album(tytul, autor, rokwydania);
                             }
                             else
                             {
-                                album = Start.ksiazki.Znajdz(tytul);
+                                album = DzialHandlowy.ksiazki.Znajdz(tytul);
                             }
-                            Start.ksiazki.Dodaj(album);
+                            DzialHandlowy.ksiazki.Dodaj(album);
                         }
                         if (gatunek == "Ksiazka")
                         {
                             Autor autor;
                             Ksiazka ksiazkaa;
-                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            if (DzialProgramowy.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
                             {
                                 autor = new Autor(imieAutora, nazwiskoAutora);
                             }
@@ -432,15 +432,15 @@ namespace EPRESS
                                 autor = new Autor(imieAutora, nazwiskoAutora);
 
                             }
-                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
                             {
                                 ksiazkaa = new Album(tytul, autor, rokwydania);
                             }
                             else
                             {
-                                ksiazkaa = Start.ksiazki.Znajdz(tytul);
+                                ksiazkaa = DzialHandlowy.ksiazki.Znajdz(tytul);
                             }
-                            Start.ksiazki.Dodaj(ksiazkaa);
+                            DzialHandlowy.ksiazki.Dodaj(ksiazkaa);
 
                         }
                         iterator = 0;
@@ -457,7 +457,7 @@ namespace EPRESS
         {
             using (StreamWriter file = new StreamWriter("autorzy.txt"))
             {
-                foreach (Autor autor in Start.autorzy.GetAutorzy())
+                foreach (Autor autor in DzialProgramowy.autorzy.GetAutorzy())
                 {
                     file.Write(autor.GetImie() + " " + autor.GetNazwisko() + " ");
                 }
@@ -465,7 +465,7 @@ namespace EPRESS
             }
             using(StreamWriter file=new StreamWriter("umowy.txt"))
             {
-                foreach(Umowa umowa in Start.umowy.GetUmowy())
+                foreach(Umowa umowa in DzialProgramowy.umowy.GetUmowy())
                 {
 
                     file.Write(umowa.GetCzasTrwania() + " " + umowa.GetWynagrodzenie() + " " + umowa.GetAutor().GetImie() + " " + umowa.GetAutor().GetNazwisko() + " ");
@@ -474,7 +474,7 @@ namespace EPRESS
             }
             using(StreamWriter file = new StreamWriter("czasopisma.txt"))
             {
-                foreach(Czasopismo czasopismo in Start.czasopisma.GetPisma())
+                foreach(Czasopismo czasopismo in DzialHandlowy.czasopisma.GetPisma())
                 {
                     file.Write(czasopismo.GetTytyul() + " " + czasopismo.GetCena() + " " + czasopismo.GetTyp() + " ");
                 }
@@ -482,7 +482,7 @@ namespace EPRESS
             }
             using(StreamWriter file = new StreamWriter("ksiazki.txt"))
             {
-                foreach(Ksiazka ksiazka in Start.ksiazki.GetKsiazki())
+                foreach(Ksiazka ksiazka in DzialHandlowy.ksiazki.GetKsiazki())
                 {
                     file.Write(ksiazka.GetTytul() + " " + ksiazka.GetRokWydania() + " " + ksiazka.GetAutor().GetImie() + " " + ksiazka.GetAutor().GetNazwisko() + " "+ksiazka.GetTyp()+" ");
                 }
@@ -493,7 +493,7 @@ namespace EPRESS
     }
     class DzialDruku
     {
-        
+        public static Drukarnie drukarnie = new Drukarnie();
         static public void drukujKsiazki()
         {
             string tytul;
@@ -502,7 +502,7 @@ namespace EPRESS
             WyswietlPoz.wysKsiazki();
             Console.WriteLine("Podaj tytul ksiazki: \n");
             tytul = Console.ReadLine();
-            ksiazka = Start.ksiazki.Znajdz(tytul);                      //Metoda Start.ksiazki.znajdz(obiekt) mówi nam czy dany obiekt znajduje się w naszej bazie, jesli tak
+            ksiazka = DzialHandlowy.ksiazki.Znajdz(tytul);                      //Metoda DzialHandlowy.ksiazki.znajdz(obiekt) mówi nam czy dany obiekt znajduje się w naszej bazie, jesli tak
             if(ksiazka == null)                                         //zwraca referencje do obiektu, jesli nie to zwraca wartosc null, oznaczającą, ze obiektu nie ma
             {
                 Console.WriteLine("Nie ma ksiazki w bazie.\nDodaj ksiazke.");
@@ -520,7 +520,7 @@ namespace EPRESS
             WyswietlPoz.wysCzasopisma();
             Console.WriteLine("Podaj tytul czasopisma: \n");
             tytul = Console.ReadLine();
-            czasopismo = Start.czasopisma.Znajdz(tytul);
+            czasopismo = DzialHandlowy.czasopisma.Znajdz(tytul);
             if (czasopismo == null)
             {
                 Console.WriteLine("Nie ma czasopisma w bazie.\nDodaj czasopismo.");
@@ -571,12 +571,13 @@ namespace EPRESS
     }
     class DzialProgramowy
     {
-        
-        public Drukarnie druk = new Drukarnie();
+        public static Autorzy autorzy = new Autorzy();
+        public static Umowy umowy = new Umowy();
+
         public Drukarnia WybierzDrukarnie(bool DrukujeAlbumy)
         {
            
-               return druk.DajDrukarnie(DrukujeAlbumy);
+               return DzialDruku.drukarnie.DajDrukarnie(DrukujeAlbumy);
 
         }
         public void Zatrudnij()
@@ -732,12 +733,14 @@ namespace EPRESS
         public string GetNazwisko() { return nazwisko; }
         public void Wypisz()
         {
-            Console.WriteLine(imie + " " + nazwisko+"\n");
+            Console.WriteLine(imie + " " + nazwisko);
         }
     }
     class DzialHandlowy
     {
-        
+        public static Ksiazki ksiazki = new Ksiazki();
+        public static Czasopisma czasopisma = new Czasopisma();
+
 
         public static void sklep()
         {
@@ -782,29 +785,29 @@ namespace EPRESS
             Console.Clear();
             if (wybor == 1)
             {
-                if (Start.ksiazki.Znajdz(tytul) == null)
+                if (DzialHandlowy.ksiazki.Znajdz(tytul) == null)
                 {
                     Console.WriteLine("Brak takiej ksiazki w bazie.");
                     return;
                 }
-                Start.ksiazki.Znajdz(tytul).ZmniejszIlosc(ilosc);
+                DzialHandlowy.ksiazki.Znajdz(tytul).ZmniejszIlosc(ilosc);
             }else if(wybor == 2)
             {
-                if (Start.czasopisma.Znajdz(tytul) == null)
+                if (DzialHandlowy.czasopisma.Znajdz(tytul) == null)
                 {
                     Console.WriteLine("Brak takiego czasopisma w bazie.\n");
                     return;
                 }
-                Start.czasopisma.Znajdz(tytul).ZmniejszIlosc(ilosc);
+                DzialHandlowy.czasopisma.Znajdz(tytul).ZmniejszIlosc(ilosc);
             }
         }
         public static void oferta()
         {
             Console.Clear();
             Console.WriteLine("---OFERTA---\n**KSIAZKI**\n");
-            Start.ksiazki.Wypisz();
+            DzialHandlowy.ksiazki.Wypisz();
             Console.WriteLine("\n**CZASOPISMA**\n");
-            Start.czasopisma.Wypisz();
+            DzialHandlowy.czasopisma.Wypisz();
         }
         public void przeslij()
         {
