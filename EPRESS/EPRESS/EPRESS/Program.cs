@@ -23,7 +23,7 @@ namespace EPRESS
         public int init()
         {
             int m;
-            Console.WriteLine("1. Dodaj element\n2. Usun element\n3. Wyswietl element\n4. Wczytaj baze z pliku\n5. Zapisz baze do pliku\n6. Drukuj ksiazki\n7. Drukuj czasopisma\n8. Wyjscie\nWybor: ");
+            Console.WriteLine("1. Dodaj element\n2. Usun element\n3. Wyswietl element\n4. Wczytaj baze z pliku\n5. Zapisz baze do pliku\n6. Drukowanie\n7. Sklep\n8. Wyjscie\nWybor: ");
             m = int.Parse(Console.ReadLine());
             switch (m)
             {
@@ -43,10 +43,10 @@ namespace EPRESS
                     zapisz();
                     break;
                 case 6:
-                    DzialDruku.drukujKsiazki();
+                    drukowanie();
                     break;
                 case 7:
-                    DzialDruku.drukujCzasopisma();
+                    DzialHandlowy.sklep();
                     break;
                 case 8:
                     return 1;
@@ -55,7 +55,7 @@ namespace EPRESS
                     Console.WriteLine("Podano nieprawidlowa wartosc.");
                     return 0;
             }
-            Console.Clear();
+            
             return 0;
         }
         private void dodawanie()  //Dodawanie Autora, publikacji, umowy itd. do naszej Bazy danych
@@ -139,10 +139,26 @@ namespace EPRESS
         }
         private void drukowanie()
         {
-            
+            int wybor;
+            Console.Clear();
+            Console.WriteLine("1. Drukuj ksiazki.\n2. Drukuj czasopisma.");
+            wybor = int.Parse(Console.ReadLine());
+            if (wybor == 1)
+            {
+                DzialDruku.drukujKsiazki();
+            }else if (wybor == 2)
+            {
+                DzialDruku.drukujCzasopisma();
+            }
+            else
+            {
+                Console.WriteLine("Nieodpowiednia wartosc.\nAnulowano operacje.\n");
+                return;
+            }
         }
         private void wczytaj()
         {
+            Console.Clear();
             using (StreamReader file = new StreamReader("autorzy.txt"))
             {
                 int iterator = 0;
@@ -217,6 +233,7 @@ namespace EPRESS
                         else
                         {
                             autorN = new Autor(imieAutora, nazwiskoAutora);
+                            Start.autorzy.Dodaj(autorN);
                         }
                         if (Start.umowy.Znajdz(imieAutora, nazwiskoAutora)==null){
                             umowos = new Umowa(czastrwania, zarobki, autorN);
@@ -224,9 +241,10 @@ namespace EPRESS
                         else
                         {
                             umowos = Start.umowy.Znajdz(imieAutora, nazwiskoAutora);
+                            Start.umowy.Dodaj(umowos);
                         }
                         
-                        Start.umowy.Dodaj(umowos);
+                        
                         iterator = 0;
                     }
                 }
@@ -389,7 +407,7 @@ namespace EPRESS
                 }
                 file.Close();
             }
-
+            Console.WriteLine("Wczytano.\n");
           
 
         }
@@ -621,7 +639,7 @@ namespace EPRESS
         }
         public void Usun(Autor autor)
         {
-            autorzy.Add(autor);
+            autorzy.Remove(autor);
         }
         public List<Autor> GetAutorzy()
         {
@@ -673,13 +691,70 @@ namespace EPRESS
     {
         private Czasopisma czasopisma;
         private Ksiazki ksiazki;
-        public void zlecenie()
-        {
 
+        public static void sklep()
+        {
+            int m;
+            Console.Clear();
+            Console.WriteLine("1. Wyswietl oferte.\n2. Sprzedaz.\n");
+            m = int.Parse(Console.ReadLine());
+            if (m == 1)
+            {
+                oferta();
+            }else if (m == 2)
+            {
+                zlecenie();
+            }
+            else
+            {
+                Console.WriteLine("Nieodpowiednia wartosc.\nAnulowano operacje.\n");
+                return;
+            }
         }
-        public void oferta()
+        public static void zlecenie()
         {
-
+            int wybor;
+            int ilosc;
+            string tytul;
+            Console.Clear();
+            Console.WriteLine("Sprzedano:\n1. Ksiazki.\n2. Czasopisma.\n");
+            wybor = int.Parse(Console.ReadLine());
+            Console.Clear();
+            if(wybor<1 || wybor > 2)
+            {
+                Console.WriteLine("Nieodpowiednia wartosc.\n Anulowano operacje.\n");
+                return;
+            }
+            Console.WriteLine("Ilosc sprzedanych egemplarzy: ");
+            ilosc = int.Parse(Console.ReadLine());
+            Console.WriteLine("Podaj tytul sprzedanej pozycji: ");
+            tytul = Console.ReadLine();
+            Console.Clear();
+            if (wybor == 1)
+            {
+                if (Start.ksiazki.Znajdz(tytul) == null)
+                {
+                    Console.WriteLine("Brak takiej ksiazki w bazie.");
+                    return;
+                }
+                Start.ksiazki.Znajdz(tytul).ZmniejszIlosc(ilosc);
+            }else if(wybor == 2)
+            {
+                if (Start.czasopisma.Znajdz(tytul) == null)
+                {
+                    Console.WriteLine("Brak takiego czasopisma w bazie.\n");
+                    return;
+                }
+                Start.czasopisma.Znajdz(tytul).ZmniejszIlosc(ilosc);
+            }
+        }
+        public static void oferta()
+        {
+            Console.Clear();
+            Console.WriteLine("---OFERTA---\n**KSIAZKI**\n");
+            Start.ksiazki.Wypisz();
+            Console.WriteLine("\n**CZASOPISMA**\n");
+            Start.czasopisma.Wypisz();
         }
         public void przeslij()
         {
@@ -713,6 +788,10 @@ namespace EPRESS
         public void DodajIlosc(int ilosc)
         {
             this.ilosc += ilosc;
+        }
+        public void ZmniejszIlosc(int ilosc)
+        {
+            this.ilosc -= ilosc;
         }
         public virtual string GetTyp()
         {
@@ -763,8 +842,6 @@ namespace EPRESS
             }
             return null;
         }
-       
-    
         public void Wypisz()
         {
             if (czasopisma.Count == 0)
@@ -853,6 +930,10 @@ namespace EPRESS
         public void DodajIlosc(int ilosc)
         {
             this.ilosc += ilosc;
+        }
+        public void ZmniejszIlosc(int ilosc)
+        {
+            this.ilosc -= ilosc;
         }
         public virtual string GetTyp() { return "Ksiazka"; }
     }

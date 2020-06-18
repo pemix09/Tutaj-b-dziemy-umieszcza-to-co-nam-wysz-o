@@ -12,6 +12,7 @@ namespace EPRESS
         {
             Autor autor;
             string imie, nazwisko;
+            Console.Clear();
             if (Start.autorzy.Licz() == 0)
             {
                 Console.WriteLine("Brak autorow w bazie.\nAnulowano operacje.");
@@ -22,6 +23,7 @@ namespace EPRESS
             imie = Console.ReadLine();
             Console.WriteLine("Podaj nazwisko autora do usuniecia: ");
             nazwisko = Console.ReadLine();
+            Console.Clear();
             autor = Start.autorzy.Znajdz(imie, nazwisko);
             if(autor == null)
             {
@@ -38,6 +40,7 @@ namespace EPRESS
         {
             Umowa umowa;
             string imie, nazwisko;
+            Console.Clear();
             if (Start.umowy.Licz() == 0)
             {
                 Console.WriteLine("Brak umow w bazie.\nAnulowano operacje.");
@@ -48,6 +51,7 @@ namespace EPRESS
             imie = Console.ReadLine();
             Console.WriteLine("Podaj nazwisko autora do usuniecia umowy: ");
             nazwisko = Console.ReadLine();
+            Console.Clear();
             umowa = Start.umowy.Znajdz(imie, nazwisko);
             if (umowa == null)
             {
@@ -63,6 +67,7 @@ namespace EPRESS
         public static void usunKsiazke()
         {
             string tyt;
+            Console.Clear();
             if (Start.ksiazki.Licz() == 0)
             {
                 Console.WriteLine("Brak ksiazek w bazie.\nAnulowano operacje.");
@@ -71,6 +76,7 @@ namespace EPRESS
             Start.ksiazki.Wypisz();
             Console.WriteLine("Podaj tytul ksiazki do usuniecia: ");
             tyt = Console.ReadLine();
+            Console.Clear();
             Ksiazka ksiazka = Start.ksiazki.Znajdz(tyt);
             if (ksiazka == null)
             {
@@ -86,6 +92,7 @@ namespace EPRESS
         public static void usunCzasopismo()
         {
             string tyt;
+            Console.Clear();
             if (Start.czasopisma.Licz() == 0)
             {
                 Console.WriteLine("Brak czasopism w bazie.\nAnulowano operacje.");
@@ -94,6 +101,7 @@ namespace EPRESS
             Start.czasopisma.Wypisz();
             Console.WriteLine("Podaj tytul czasopisma do usuniecia: ");
             tyt = Console.ReadLine();
+            Console.Clear();
             Czasopismo czasop = Start.czasopisma.Znajdz(tyt);
             if (czasop == null)
             {
