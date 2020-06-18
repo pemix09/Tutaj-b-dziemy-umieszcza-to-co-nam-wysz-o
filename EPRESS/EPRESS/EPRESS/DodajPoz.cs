@@ -70,7 +70,7 @@ namespace EPRESS
             }
             else
             {
-                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         //+ wyjatki chyba trzeba dodac
+                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         
                 return;
             }
             Console.WriteLine("1. Umowa o prace.\n2. Umowa o dzielo\n");
@@ -88,7 +88,7 @@ namespace EPRESS
             }
             else
             {
-                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         //+ wyrzucenie wyjatku
+                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");        
                 return;
             }
             return;
