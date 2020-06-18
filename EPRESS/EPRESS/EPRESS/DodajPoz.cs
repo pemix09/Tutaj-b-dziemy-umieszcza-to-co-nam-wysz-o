@@ -19,13 +19,13 @@ namespace EPRESS
             nazwisko = Console.ReadLine();
             Console.Clear();
             Autor autor = new Autor(imie, nazwisko);
-            Start.autorzy.Dodaj(autor);
+            DzialProgramowy.autorzy.Dodaj(autor);
 
             return autor;
         }
         public static void dodajAutora(Autor autor)
         {
-            Start.autorzy.Dodaj(autor);
+            DzialProgramowy.autorzy.Dodaj(autor);
         }
         public static void dodajUmowe()
         {
@@ -49,19 +49,19 @@ namespace EPRESS
             }
             else if (wybor == 2)
             {
-                if (Start.autorzy.Licz() == 0)
+                if (DzialProgramowy.autorzy.Licz() == 0)
                 {
                     Console.WriteLine("Baza autorow jest pusta.\nAnulowano operacje.\n");
                     return;
                 }
                 Console.Clear();
-                Start.autorzy.Wypisz();
+                DzialProgramowy.autorzy.Wypisz();
                 Console.WriteLine("Imie autora: ");
                 imieTmp = Console.ReadLine();
                 Console.WriteLine("Nazwisko autora: ");
                 nazwiskoTmp = Console.ReadLine();
                 Console.Clear();
-                autor = Start.autorzy.Znajdz(imieTmp, nazwiskoTmp);
+                autor = DzialProgramowy.autorzy.Znajdz(imieTmp, nazwiskoTmp);
                 if(autor == null)
                 {
                     Console.WriteLine("Taki autor nie wystepuje w bazie.\nAnulowano operacje.");
@@ -70,7 +70,7 @@ namespace EPRESS
             }
             else
             {
-                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         //+ wyjatki chyba trzeba dodac
+                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         
                 return;
             }
             Console.WriteLine("1. Umowa o prace.\n2. Umowa o dzielo\n");
@@ -79,16 +79,16 @@ namespace EPRESS
             if (wybor2 == 1)
             {
                 UmowaoPrace umowaoPrace = new UmowaoPrace(czasTrwania, pensja, autor);
-                Start.umowy.Dodaj(umowaoPrace);
+                DzialProgramowy.umowy.Dodaj(umowaoPrace);
             }
             else if (wybor2 == 2)
             {
                 UmowaoDzielo umowaoDzielo = new UmowaoDzielo(czasTrwania, pensja, autor);
-                Start.umowy.Dodaj(umowaoDzielo);
+                DzialProgramowy.umowy.Dodaj(umowaoDzielo);
             }
             else
             {
-                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         //+ wyrzucenie wyjatku
+                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");        
                 return;
             }
             return;
@@ -96,7 +96,7 @@ namespace EPRESS
         public static void dodajUmowe(int czasTrw, float pensja, Autor autor)
         {
             Umowa umowa = new Umowa(czasTrw, pensja, autor);
-            Start.umowy.Dodaj(umowa);
+            DzialProgramowy.umowy.Dodaj(umowa);
         }
         public static void dodajKsiazke()
         {
@@ -123,18 +123,18 @@ namespace EPRESS
             }
             else if (wybor == 2)
             {
-                if (Start.autorzy.Licz() == 0)
+                if (DzialProgramowy.autorzy.Licz() == 0)
                 {
                     Console.WriteLine("Brak autorow w bazie.\nAnulowano operacje.\n");
                     return;
                 }
-                Start.autorzy.Wypisz();
+                DzialProgramowy.autorzy.Wypisz();
                 Console.WriteLine("Imie autora: ");
                 imieTmp = Console.ReadLine();
                 Console.WriteLine("Nazwisko autora: ");
                 nazwiskoTmp = Console.ReadLine();
                 Console.Clear();
-                autor = Start.autorzy.Znajdz(imieTmp, nazwiskoTmp);
+                autor = DzialProgramowy.autorzy.Znajdz(imieTmp, nazwiskoTmp);
                 if(autor == null)
                 {
                     Console.WriteLine("Takiego autora nie ma w bazie.\nAnulowano operacje.\n");
@@ -148,23 +148,23 @@ namespace EPRESS
             if (wybor == 1)
             {
                 Sensacyjna ks = new Sensacyjna(tytul, autor, rokWydania);
-                Start.ksiazki.Dodaj(ks);
+                DzialHandlowy.ksiazki.Dodaj(ks);
             }
             else if(wybor == 2)
             {
                 Romans ks = new Romans(tytul, autor, rokWydania);
-                Start.ksiazki.Dodaj(ks);
+                DzialHandlowy.ksiazki.Dodaj(ks);
             }
             else if(wybor == 3)
             {
                 Album ks = new Album(tytul, autor, rokWydania);
-                Start.ksiazki.Dodaj(ks);
+                DzialHandlowy.ksiazki.Dodaj(ks);
             }
             else
             {
                 Console.WriteLine("Nieodpowiedni wybor. Przypisano domyslny typ: ksiazka");
                 Ksiazka ks = new Ksiazka(tytul, autor, rokWydania);
-                Start.ksiazki.Dodaj(ks);
+                DzialHandlowy.ksiazki.Dodaj(ks);
             }
             
         }
@@ -184,17 +184,17 @@ namespace EPRESS
             if (wybor == 1)
             {
                 Tygodnik czasop = new Tygodnik(cena, tytul);
-                Start.czasopisma.Dodaj(czasop);
+                DzialHandlowy.czasopisma.Dodaj(czasop);
             }else if(wybor == 2)
             {
                 Miesiecznik czasop = new Miesiecznik(cena, tytul);
-                Start.czasopisma.Dodaj(czasop);
+                DzialHandlowy.czasopisma.Dodaj(czasop);
             }
             else
             {
                 Console.WriteLine("Nieodpowiedni wybor. Przypisano domyslny typ: czasopismo");
                 Czasopismo czasop = new Czasopismo(cena, tytul);
-                Start.czasopisma.Dodaj(czasop);
+                DzialHandlowy.czasopisma.Dodaj(czasop);
             }
         }
     }

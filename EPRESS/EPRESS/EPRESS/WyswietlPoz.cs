@@ -11,22 +11,22 @@ namespace EPRESS
         public static void wysAutorow()
         {
             Console.Clear();
-            Start.autorzy.Wypisz();
+            DzialProgramowy.autorzy.Wypisz();
         }
         public static void wysUmowy()
         {
             Console.Clear();
-            Start.umowy.Wypisz();
+            DzialProgramowy.umowy.Wypisz();
         }
         public static void wysKsiazki()
         {
             Console.Clear();
-            Start.ksiazki.Wypisz();
+            DzialHandlowy.ksiazki.Wypisz();
         }
         public static void wysCzasopisma()
         {
             Console.Clear();
-            Start.czasopisma.Wypisz();
+            DzialHandlowy.czasopisma.Wypisz();
         }
     }
 }
