@@ -114,7 +114,7 @@ namespace EPRESS
             Console.Clear();
             if (wybor < 1 || wybor > 2)
             {
-                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         //+ wyjatki chyba trzeba dodac
+                Console.WriteLine("Nieodpowiedni wybor, nie udalo sie dodac autora!");         
                 return;
             }
             if (wybor == 1)
