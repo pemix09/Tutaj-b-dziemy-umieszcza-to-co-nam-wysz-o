@@ -395,7 +395,39 @@ namespace EPRESS
         }
         private void zapisz()
         {
+            using (StreamWriter file = new StreamWriter("autorzy1.txt"))
+            {
+                foreach (Autor autor in Start.autorzy.GetAutorzy())
+                {
+                    file.Write(autor.GetImie() + " " + autor.GetNazwisko() + " ");
+                }
+                file.Close();
+            }
+            using(StreamWriter file=new StreamWriter("umowy1.txt"))
+            {
+                foreach(Umowa umowa in Start.umowy.GetUmowy())
+                {
 
+                    file.Write(umowa.GetCzasTrwania() + " " + umowa.GetWynagrodzenie() + " " + umowa.GetAutor().GetImie() + " " + umowa.GetAutor().GetNazwisko() + " ");
+                }
+                file.Close();
+            }
+            using(StreamWriter file = new StreamWriter("czasopisma1.txt"))
+            {
+                foreach(Czasopismo czasopismo in Start.czasopisma.GetPisma())
+                {
+                    file.Write(czasopismo.GetTytyul() + " " + czasopismo.GetCena() + " " + czasopismo.GetTyp() + " ");
+                }
+                file.Close();
+            }
+            using(StreamWriter file = new StreamWriter("ksiazki1.txt"))
+            {
+                foreach(Ksiazka ksiazka in Start.ksiazki.GetKsiazki())
+                {
+                    file.Write(ksiazka.GetTytul() + " " + ksiazka.GetRokWydania() + " " + ksiazka.GetAutor().GetImie() + " " + ksiazka.GetAutor().GetNazwisko() + " "+ksiazka.GetTyp()+" ");
+                }
+                file.Close();
+            }
         }
     }
     class DzialDruku
@@ -659,6 +691,8 @@ namespace EPRESS
         private int ilosc=0;
         private float cena;
         private string tytul;
+        
+        
         public Czasopismo(float Cen,string tyt)
         {
             cena = Cen;
@@ -680,14 +714,21 @@ namespace EPRESS
         {
             this.ilosc += ilosc;
         }
+        public virtual string GetTyp()
+        {
+            
+            return "Czasopismo";
+        }
     }
     class Tygodnik : Czasopismo 
     {
     public Tygodnik(float Cen, string tyt) : base(Cen, tyt) { }
+        public override string GetTyp() { return "Tygodnik"; }
     }
     class Miesiecznik : Czasopismo 
     {
         public Miesiecznik(float Cen, string tyt) : base(Cen, tyt) { }
+        public override string GetTyp() { return "Miesiecznik"; }
     }
     public class Czasopisma
     {
@@ -722,6 +763,7 @@ namespace EPRESS
             }
             return null;
         }
+       
     
         public void Wypisz()
         {
@@ -812,17 +854,21 @@ namespace EPRESS
         {
             this.ilosc += ilosc;
         }
+        public virtual string GetTyp() { return "Ksiazka"; }
     }
     class Sensacyjna : Ksiazka 
     {
         public Sensacyjna(string tyt, Autor autor, int rokWyd) : base(tyt, autor, rokWyd){}
+        public override string GetTyp() { return "Sensacyjna"; }
     }
     class Album : Ksiazka 
     {
         public Album(string tyt, Autor autor, int rokWyd) : base(tyt, autor, rokWyd) { }
+        public override string GetTyp() { return "Album"; }
     }
     class Romans : Ksiazka {
         public Romans(string tyt, Autor autor, int rokWyd) : base(tyt, autor, rokWyd) { }
+        public override string GetTyp() { return "Romans"; }
     }
     class MainClass
     {
