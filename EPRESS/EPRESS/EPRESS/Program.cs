@@ -450,7 +450,8 @@ namespace EPRESS
     }
     class DzialDruku
     {
-        private Drukarnie drukarnie;
+        public static Drukarnie drukarnie = new Drukarnie();
+            
         static public void drukujKsiazki()
         {
             string tytul;
@@ -498,6 +499,12 @@ namespace EPRESS
         public Drukarnie()
         {
             drukarnie = new List<Drukarnia>();
+            Drukarnia d1 = new Drukarnia("drukarnia1", false);
+            Drukarnia d2 = new Drukarnia("drukarnia2", false);
+            Drukarnia d3 = new Drukarnia("drukarnia3", true);
+            drukarnie.Add(d1);
+            drukarnie.Add(d2);
+            drukarnie.Add(d3);
         }
         public List<Drukarnia> GetDrukarnie() { return drukarnie; }
         public Drukarnia DajDrukarnie(bool CzyAlbum)
@@ -527,21 +534,21 @@ namespace EPRESS
         public static Autorzy autorzy = new Autorzy();
         public static Umowy umowy = new Umowy();
 
-        public Drukarnie druk = new Drukarnie(); //to dział druku
+ 
         public Drukarnia WybierzDrukarnie(bool DrukujeAlbumy)
         {
            
-               return druk.DajDrukarnie(DrukujeAlbumy);
+               return DzialDruku.drukarnie.DajDrukarnie(DrukujeAlbumy);
 
         }
-        public void Zatrudnij()
+        /*public void Zatrudnij()
         {
 
         }
         public void Przeslij()
         {
 
-        }
+        }*/
     }
     public class Umowy
     {
