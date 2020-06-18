@@ -28,3 +28,9 @@ D:\Inne\uczPB\II_Sem\PO\Projekt\Tutaj-b-dziemy-umieszcza-to-co-nam-wysz-o\EPRESS
 D:\Inne\uczPB\II_Sem\PO\Projekt\Tutaj-b-dziemy-umieszcza-to-co-nam-wysz-o\EPRESS\EPRESS\EPRESS\obj\x86\Debug\EPRESS.csproj.CoreCompileInputs.cache
 D:\Inne\uczPB\II_Sem\PO\Projekt\Tutaj-b-dziemy-umieszcza-to-co-nam-wysz-o\EPRESS\EPRESS\EPRESS\obj\x86\Debug\EPRESS.exe
 D:\Inne\uczPB\II_Sem\PO\Projekt\Tutaj-b-dziemy-umieszcza-to-co-nam-wysz-o\EPRESS\EPRESS\EPRESS\obj\x86\Debug\EPRESS.pdb
+C:\Users\Administrator\Documents\Studia\po\PROJEKT\EPRESS\EPRESS\EPRESS\bin\Debug\EPRESS.exe.config
+C:\Users\Administrator\Documents\Studia\po\PROJEKT\EPRESS\EPRESS\EPRESS\bin\Debug\EPRESS.exe
+C:\Users\Administrator\Documents\Studia\po\PROJEKT\EPRESS\EPRESS\EPRESS\bin\Debug\EPRESS.pdb
+C:\Users\Administrator\Documents\Studia\po\PROJEKT\EPRESS\EPRESS\EPRESS\obj\x86\Debug\EPRESS.csprojAssemblyReference.cache
+C:\Users\Administrator\Documents\Studia\po\PROJEKT\EPRESS\EPRESS\EPRESS\obj\x86\Debug\EPRESS.exe
+C:\Users\Administrator\Documents\Studia\po\PROJEKT\EPRESS\EPRESS\EPRESS\obj\x86\Debug\EPRESS.pdb

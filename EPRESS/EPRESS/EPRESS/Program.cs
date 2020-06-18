@@ -49,7 +49,7 @@ namespace EPRESS
                     Console.WriteLine("Podano nieprawidlowa wartosc.");
                     return 0;
             }
-            //Console.Clear();
+            Console.Clear();
             return 0;
         }
         private void dodawanie()  //Dodawanie Autora, publikacji, umowy itd. do naszej Bazy danych
@@ -78,9 +78,9 @@ namespace EPRESS
             }
 
         }
-        private void usuwanie()//usuwanie autorów, publikacji, umówi itd. z naszej bazy danych
+        private void usuwanie()
         {                       
-                                //jeszcze nie dziala;
+                                
             int m;
             Console.Clear();
             Console.WriteLine("Usun\n1. Autora\n2. Umowe\n3. Ksiazka\n4. Czasopismo\n");
@@ -148,14 +148,23 @@ namespace EPRESS
                 {
 
                     if (iterator == 0)
-                    { imie = autor; Console.WriteLine("Imie to: " + imie); }
+                    { imie = autor; }
                     if (iterator == 1)
-                    { nazwisko = autor; Console.WriteLine("Nazwisko to: " + nazwisko); }
+                    { nazwisko = autor;  }
 
                     iterator++;
                     if (iterator == 2)
                     {
-                        Autor autorN = new Autor(imie, nazwisko);
+
+                        Autor autorN;
+                        if(Start.autorzy.Znajdz(imie, nazwisko) == null)
+                        {
+                            autorN = new Autor(imie, nazwisko);
+                        }
+                        else
+                        {
+                            autorN = Start.autorzy.Znajdz(imie, nazwisko);
+                        }
                         DodajPoz.dodajAutora(autorN);
                         iterator = 0;
                     }
@@ -177,23 +186,24 @@ namespace EPRESS
 
 
                     if (iterator == 0)
-                    { czastrwania = int.Parse(umowa); Console.WriteLine("Czas trwania umowy to: " + czastrwania); }
+                    { czastrwania = int.Parse(umowa); }
                     if (iterator == 1)
                     {
-                        zarobki = float.Parse(umowa); Console.WriteLine("Zarobki na umowie to: " + zarobki);
+                        zarobki = float.Parse(umowa);
                     }
                     if (iterator == 2)
                     {
-                        imieAutora = umowa; Console.WriteLine("Imie autora to: " + imieAutora);
+                        imieAutora = umowa; 
                     }
                     if (iterator == 3)
                     {
-                        nazwiskoAutora = umowa; Console.WriteLine("Nazwisko autora to: " + nazwiskoAutora);
+                        nazwiskoAutora = umowa;
                     }
                     iterator++;
                     if (iterator == 4)
                     {
                         Autor autorN;
+                        Umowa umowos;
                         if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) != null)
                         {
                            autorN = Start.autorzy.Znajdz(imieAutora, nazwiskoAutora);
@@ -202,15 +212,179 @@ namespace EPRESS
                         {
                             autorN = new Autor(imieAutora, nazwiskoAutora);
                         }
+                        if (Start.umowy.Znajdz(imieAutora, nazwiskoAutora)==null){
+                            umowos = new Umowa(czastrwania, zarobki, autorN);
+                        }
+                        else
+                        {
+                            umowos = Start.umowy.Znajdz(imieAutora, nazwiskoAutora);
+                        }
                         
-                        DodajPoz.dodajUmowe(czastrwania, zarobki, autorN);
+                        Start.umowy.Dodaj(umowos);
                         iterator = 0;
                     }
                 }
                 file.Close();
             }
+            using (StreamReader file= new StreamReader("czasopisma.txt"))
+            {
+                int iterator = 0;
+                string tytul="";
+                float cena=0;
+                string typ="";
+                string[] czasopisma = file.ReadToEnd().Split(' ');
+                foreach(string czasopismo in czasopisma)
+                {
 
+                    if (iterator == 0)
+                    { tytul = czasopismo;  }
+                    if (iterator == 1)
+                    { cena = float.Parse(czasopismo);  }
+                    if(iterator==2)
+                    { typ = czasopismo; }
+                    iterator++;
+                    if (iterator == 3)
+                    {
+                        if (typ == "czasopismo")
+                        {
+                            Czasopismo czasopism;
+                            if (Start.czasopisma.Znajdz(tytul) == null)
+                            {
+                                czasopism = new Czasopismo(cena, tytul);
+                            }
+                            else
+                            {
+                                czasopism = Start.czasopisma.Znajdz(tytul);
+                            }
+                            Start.czasopisma.Dodaj(czasopism);
+                        }
+                        if (typ == "miesiecznik"){
+                            Czasopismo czasopism;
+                            if (Start.czasopisma.Znajdz(tytul) == null)
+                            {
+                                czasopism = new Miesiecznik(cena, tytul);
+                            }
+                            else
+                            {
+                                czasopism = Start.czasopisma.Znajdz(tytul);
+                            }
+                            Start.czasopisma.Dodaj(czasopism);
+                        }
+                        if (typ == "tygodnik")
+                        {
+                            Czasopismo czasopism;
+                            if (Start.czasopisma.Znajdz(tytul) == null)
+                            {
+                                czasopism = new Tygodnik(cena, tytul);
+                            }
+                            else
+                            {
+                                czasopism =Start.czasopisma.Znajdz(tytul);
+                            }
+                            Start.czasopisma.Dodaj(czasopism);
+                        }
+                        
+                        iterator = 0;
+                    }
+                }
+                file.Close();
+            }
+            using(StreamReader file=new StreamReader("ksiazki.txt"))
+            {
+                int iterator = 0;
+                string tytul="";
+                int rokwydania=0;
+                string imieAutora="";
+                string nazwiskoAutora="";
+                string gatunek="";
+                string[] ksiazki = file.ReadToEnd().Split(' ');
+                foreach (string ksiazka in ksiazki)
+                {
+                    if (iterator == 0) { tytul= ksiazka; }
+                    if (iterator == 1) { rokwydania = int.Parse(ksiazka); }
+                    if(iterator == 2) { imieAutora = ksiazka; }
+                    if (iterator == 3) { nazwiskoAutora = ksiazka; }
+                    if (iterator == 4) { gatunek = ksiazka; }
+                    iterator++;
+                    if (iterator == 5)
+                    {
+                        if (gatunek == "Sensacyjna")
+                        {
+                            Autor autor;
+                            Ksiazka sensacyjna;
+                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            {
+                                autor = new Autor(imieAutora, nazwiskoAutora);
+                            }
+                            else
+                            {
+                                autor = Start.autorzy.Znajdz(imieAutora, nazwiskoAutora);
+                               
+                            }
+                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            {
+                                sensacyjna = new Sensacyjna(tytul, autor, rokwydania);
+                            }
+                            else
+                            {
+                                sensacyjna = Start.ksiazki.Znajdz(tytul);
+                            }
+                            Start.ksiazki.Dodaj(sensacyjna);
+                        }
+                        if (gatunek == "Romans")
+                        {
+                            Autor autor;
+                            Ksiazka romans;
+                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            {
+                                autor = new Autor(imieAutora, nazwiskoAutora);
+                            }
+                            else
+                            {
+                                autor = new Autor(imieAutora, nazwiskoAutora);
+                                
+                            }
+                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            {
+                                romans = new Romans(tytul, autor, rokwydania);
+                            }
+                            else
+                            {
+                                romans = Start.ksiazki.Znajdz(tytul);
+                            }
+                            Start.ksiazki.Dodaj(romans);
+                        }
+                        if (gatunek == "Album")
+                        {
+                            Autor autor;
+                            Ksiazka album;
+                            if (Start.autorzy.Znajdz(imieAutora, nazwiskoAutora) == null)
+                            {
+                                autor = new Autor(imieAutora, nazwiskoAutora);
+                            }
+                            else
+                            {
+                                autor = new Autor(imieAutora, nazwiskoAutora);
+                             
+                            }
+                            if (Start.ksiazki.Znajdz(tytul) == null)
+                            {
+                                album = new Album(tytul, autor, rokwydania);
+                            }
+                            else
+                            {
+                                album = Start.ksiazki.Znajdz(tytul);
+                            }
+                            Start.ksiazki.Dodaj(album);
+                        }
+                        iterator = 0;
+                    }
 
+                }
+                file.Close();
+            }
+
+          
 
         }
         private void zapisz()
@@ -600,7 +774,7 @@ namespace EPRESS
         public static void Main()
         {
             int m;
-            Console.WriteLine("Kurwa!");
+            
             ePress wydawnictowo = new ePress();
             do
             {

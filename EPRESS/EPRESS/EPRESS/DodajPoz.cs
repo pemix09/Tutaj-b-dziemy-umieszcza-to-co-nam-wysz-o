@@ -173,6 +173,7 @@ namespace EPRESS
             float cena;
             string tytul;
             int wybor;
+            
             Console.WriteLine("Podaj tytul czasopisma: ");
             tytul = Console.ReadLine();
             Console.WriteLine("Podaj cene czasopisma: ");
