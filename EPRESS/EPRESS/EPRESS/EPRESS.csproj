@@ -35,7 +35,6 @@
   <ItemGroup>
     <Compile Include="WyswietlPoz.cs" />
     <Compile Include="UsunPoz.cs" />
-    <Compile Include="Start.cs" />
     <Compile Include="DodajPoz.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
