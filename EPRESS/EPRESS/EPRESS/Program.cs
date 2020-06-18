@@ -1,4 +1,4 @@
-﻿/*Wydawnictwo ePress wydaje pozycje: książki różnego rodzaju (sensacyjne, romanse, albumy, ...) oraz 2 rodzaje czasopism: tygodniki oraz miesięczniki. Współpracuje z autorami, których zatrudnia na umowę o pracę lub o dzieło (zajmuje się tym dział programowy wydawnictwa). Drukowaniem zarządza dział druku - odbywa się to w jednej z 3 własnych drukarni, z tym że tylko 1 z nich zapewnia wystarczającą jakość druku dla albumów.
+/*Wydawnictwo ePress wydaje pozycje: książki różnego rodzaju (sensacyjne, romanse, albumy, ...) oraz 2 rodzaje czasopism: tygodniki oraz miesięczniki. Współpracuje z autorami, których zatrudnia na umowę o pracę lub o dzieło (zajmuje się tym dział programowy wydawnictwa). Drukowaniem zarządza dział druku - odbywa się to w jednej z 3 własnych drukarni, z tym że tylko 1 z nich zapewnia wystarczającą jakość druku dla albumów.
 Minimalny zakres funkcjonalności:
 
     -zarządzanie autorami (dodawanie, usuwanie, przegląd)
@@ -23,7 +23,7 @@ namespace EPRESS
         public int init()
         {
             int m;
-            Console.WriteLine("1. Dodaj element\n2. Usun element\n3. Wyswietl element\n4. Wczytaj baze z pliku\n5. Zapisz baze do pliku\n6. Drukuj ksiazki\n7. Wyjscie\nWybor: ");
+            Console.WriteLine("1. Dodaj element\n2. Usun element\n3. Wyswietl element\n4. Wczytaj baze z pliku\n5. Zapisz baze do pliku\n6. Drukuj ksiazki\n7. Drukuj czasopisma\n8. Wyjscie\nWybor: ");
             m = int.Parse(Console.ReadLine());
             switch (m)
             {
@@ -43,9 +43,12 @@ namespace EPRESS
                     zapisz();
                     break;
                 case 6:
-                    DzialDruku.drukuj();
+                    DzialDruku.drukujKsiazki();
                     break;
                 case 7:
+                    DzialDruku.drukujCzasopisma();
+                    break;
+                case 8:
                     return 1;
                 default:
                     Console.Clear();
@@ -97,10 +100,10 @@ namespace EPRESS
                     UsunPoz.usunUmowe();
                     break;
                 case 3:
-                    
+                    UsunPoz.usunKsiazke();
                     break;
                 case 4:
-                    
+                    UsunPoz.usunCzasopismo();
                     break;
                 default:
                     Console.WriteLine("Podano nieprawidlowa wartosc.");
@@ -136,7 +139,7 @@ namespace EPRESS
         }
         private void drukowanie()
         {
-
+            
         }
         private void wczytaj()
         {
@@ -224,7 +227,7 @@ namespace EPRESS
     class DzialDruku
     {
         private Drukarnie drukarnie;
-        static public void drukuj()
+        static public void drukujKsiazki()
         {
             string tytul;
             Ksiazka ksiazka;
@@ -240,6 +243,24 @@ namespace EPRESS
             }
             Console.WriteLine("Podaj ilosc ksiazek do wydrukowania: ");
             ksiazka.DodajIlosc(Convert.ToInt32(Console.ReadLine()));
+            Console.Clear();
+        }
+        static public void drukujCzasopisma()
+        {
+            string tytul;
+            Czasopismo czasopismo;
+            Console.Clear();
+            WyswietlPoz.wysCzasopisma();
+            Console.WriteLine("Podaj tytul czasopisma: \n");
+            tytul = Console.ReadLine();
+            czasopismo = Start.czasopisma.Znajdz(tytul);
+            if (czasopismo == null)
+            {
+                Console.WriteLine("Nie ma czasopisma w bazie.\nDodaj czasopismo.");
+                DodajPoz.dodajCzasopismo();
+            }
+            Console.WriteLine("Podaj ilosc czasopism do wydrukowania: ");
+            czasopismo.DodajIlosc(Convert.ToInt32(Console.ReadLine()));
             Console.Clear();
         }
         public void wydrukowano()
@@ -461,6 +482,7 @@ namespace EPRESS
     }
     public class Czasopismo
     {
+        private int ilosc=0;
         private float cena;
         private string tytul;
         public Czasopismo(float Cen,string tyt)
@@ -475,6 +497,14 @@ namespace EPRESS
         public float GetCena()
         {
             return cena;
+        }
+        public int GetIlosc()
+        {
+            return this.ilosc;
+        }
+        public void DodajIlosc(int ilosc)
+        {
+            this.ilosc += ilosc;
         }
     }
     class Tygodnik : Czasopismo 
@@ -526,7 +556,7 @@ namespace EPRESS
             else
                 foreach (Czasopismo gazeta in czasopisma)
             {
-                Console.WriteLine(gazeta.GetTytyul()+" | Cena: "+gazeta.GetCena()+" | "+gazeta.GetType().ToString().Substring(7));
+                Console.WriteLine(gazeta.GetTytyul()+" | Cena: "+gazeta.GetCena()+" | "+gazeta.GetType().ToString().Substring(7)+" | Ilosc czasopism na magazynie: "+gazeta.GetIlosc()+"\n");
             }
         }
     }
